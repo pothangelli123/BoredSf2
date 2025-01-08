@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import Logo from './Logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -18,7 +19,7 @@ export default function Navbar() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-2xl font-bold text-blue-600">
-            BoredSF
+            <Logo size="small" />
           </Link>
 
           {/* Desktop Navigation */}

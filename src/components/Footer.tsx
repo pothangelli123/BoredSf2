@@ -1,56 +1,66 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Logo from './Logo';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">BoredSF</h3>
-            <p className="text-gray-400">
-              Your trusted partner for Salesforce Marketing Cloud implementation and optimization.
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="space-y-4">
+            <Logo size="medium" className="text-white" />
+            <p className="text-gray-400 mt-4">
+              Transforming marketing through innovative cloud solutions.
             </p>
+            <div className="space-y-2">
+              <a href="mailto:contact@boredsf.com" className="flex items-center text-gray-400 hover:text-blue-400">
+                <Mail className="w-4 h-4 mr-2" />
+                contact@boredsf.com
+              </a>
+              <a href="tel:+1234567890" className="flex items-center text-gray-400 hover:text-blue-400">
+                <Phone className="w-4 h-4 mr-2" />
+                (123) 456-7890
+              </a>
+              <div className="flex items-center text-gray-400">
+                <MapPin className="w-4 h-4 mr-2" />
+                San Francisco, CA
+              </div>
+            </div>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">Products</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link></li>
-              <li><Link to="/solutions" className="text-gray-400 hover:text-white transition-colors">Solutions</Link></li>
-              <li><Link to="/services" className="text-gray-400 hover:text-white transition-colors">Services</Link></li>
-              <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About</Link></li>
-              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Marketing Cloud</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Analytics Suite</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Automation Tools</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Integration APIs</a></li>
             </ul>
           </div>
 
-          {/* Services */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Services</h3>
+            <h3 className="text-lg font-semibold mb-4">Company</h3>
             <ul className="space-y-2">
-              <li className="text-gray-400">Journey Builder</li>
-              <li className="text-gray-400">Email Studio</li>
-              <li className="text-gray-400">Audience Studio</li>
-              <li className="text-gray-400">Analytics Builder</li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">About Us</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Careers</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Press</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Contact</a></li>
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li>contact@sfmcpartner.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>123 Marketing Street</li>
-              <li>San Francisco, CA 94105</li>
+            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Privacy Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Terms of Service</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Cookie Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-blue-400">Security</a></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} BoredSF. All rights reserved.</p>
+          <p>© 2024 BoredSF. All rights reserved.</p>
         </div>
       </div>
     </footer>
