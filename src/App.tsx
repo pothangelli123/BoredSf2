@@ -7,6 +7,8 @@ import About from './pages/About';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import SFMCSolutions from './pages/SFMCSolutions';
+import JourneyBuilder from './pages/JourneyBuilder';
+import EmailStudio from './pages/EmailStudio';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<ContactSection />} />
             <Route path="/solutions" element={<SFMCSolutions />} />
+            <Route path="/journey-builder" element={<JourneyBuilder />} />
+            <Route path="/services/email-studio" element={<EmailStudio />} />
           </Routes>
         </main>
         <Footer />

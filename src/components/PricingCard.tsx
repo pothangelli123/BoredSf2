@@ -1,3 +1,5 @@
+import { CheckCircle } from 'lucide-react';
+
 interface PricingCardProps {
   tier: string;
   price: number;
