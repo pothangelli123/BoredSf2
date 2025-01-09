@@ -32,6 +32,17 @@ export default {
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
       },
+      colors: {
+        gray: {
+          850: '#1f2937',
+        }
+      },
+      transitionProperty: {
+        'all': 'all',
+      },
+      scale: {
+        '110': '1.1',
+      }
     },
   },
   plugins: [],

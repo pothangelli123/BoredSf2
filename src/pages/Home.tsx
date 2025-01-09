@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   MessageSquare, Mail, Users, BarChart, Cloud, Shield, Zap, Globe,
   Award, Sparkles, Rocket, Target, ArrowRight, CheckCircle, CheckCircle2, Star, Database, Play, Brain, Network, LineChart
@@ -6,17 +6,72 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
+
+// Add this new animation keyframe to your global CSS or create it using Framer Motion
+const pulseAnimation = {
+  initial: { scale: 1, opacity: 0.3 },
+  animate: {
+    scale: 1.2,
+    opacity: [0.3, 0.6, 0.3],
+    transition: {
+      duration: 8,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
+// Add this new type and constant before the Home component
+type FeatureCard = {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  color: string;
+};
+
+const featureCards: FeatureCard[] = [
+  {
+    icon: <Database className="w-6 h-6 text-blue-600" />,
+    title: "Powerful Analytics",
+    description: "Get deep insights into your marketing performance with our advanced analytics tools.",
+    color: "blue"
+  },
+  {
+    icon: <Brain className="w-6 h-6 text-purple-600" />,
+    title: "AI-Powered",
+    description: "Leverage advanced AI capabilities to optimize your marketing campaigns automatically.",
+    color: "purple"
+  },
+  {
+    icon: <Globe className="w-6 h-6 text-green-600" />,
+    title: "Global Reach",
+    description: "Connect with customers worldwide through our comprehensive marketing platform.",
+    color: "green"
+  },
+  {
+    icon: <MessageSquare className="w-6 h-6 text-indigo-600" />,
+    title: "Smart Communication",
+    description: "Engage your audience with intelligent, automated messaging across all channels.",
+    color: "indigo"
+  }
+];
 
 export default function Home() {
-  const trustedBrands = [
-    '/logos/amazon.svg',
-    '/logos/microsoft.svg',
-    '/logos/google.svg',
-    '/logos/coca-cola.svg',
-    '/logos/nike.svg',
-    '/logos/samsung.svg',
-  ];
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 300], [0, 100]);
+  const y2 = useTransform(scrollY, [0, 300], [0, -100]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // const trustedBrands = [
+  //   '/logos/amazon.svg',
+  //   '/logos/microsoft.svg',
+  //   '/logos/google.svg',
+  //   '/logos/coca-cola.svg',
+  //   '/logos/nike.svg',
+  //   '/logos/samsung.svg',
+  // ];
 
   // Add container variants for staggered animations
   const containerVariants = {
@@ -35,18 +90,81 @@ export default function Home() {
     visible: { opacity: 1, y: 0 }
   };
 
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentCardIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % featureCards.length;
+        return nextIndex;
+      });
+    }, 3000); // Change card every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
       <Navbar />
       {/* Hero Section with Enhanced Animations */}
       <header className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white pt-24 overflow-hidden min-h-screen">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-1000"></div>
-          <div className="absolute top-40 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-40 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/30"></div>
+          {/* First large circle */}
+          <motion.div 
+            style={{ y: y1 }}
+            initial={pulseAnimation.initial}
+            animate={pulseAnimation.animate}
+            className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 scale-95" />
+          </motion.div>
+
+          {/* Second large circle */}
+          <motion.div 
+            style={{ y: y2 }}
+            initial={pulseAnimation.initial}
+            animate={pulseAnimation.animate}
+            className="absolute bottom-[-20%] left-[-10%] w-[700px] h-[700px] rounded-full"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 scale-95" />
+          </motion.div>
+
+          {/* Additional floating elements */}
+          <motion.div 
+            animate={{ 
+              y: [-20, 20],
+              opacity: [0.4, 0.7, 0.4]
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-30"
+          />
+
+          <motion.div 
+            animate={{ 
+              y: [20, -20],
+              opacity: [0.3, 0.6, 0.3]
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+          />
+
+          {/* Overlay gradient for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 via-transparent to-blue-900/20" />
+          
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
         </div>
 
         {/* Content */}
@@ -129,24 +247,31 @@ export default function Home() {
               </motion.button>
             </motion.div>
 
-            {/* Stats Preview with Animations */}
+            {/* Enhanced Stats Preview */}
             <motion.div 
               className="mt-16 grid grid-cols-3 gap-8 max-w-2xl"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              {['500+', '98%', '24/7'].map((stat, index) => (
+              {[
+                { value: '500+', label: 'Enterprise Clients', icon: <Users className="w-5 h-5 text-blue-200" /> },
+                { value: '98%', label: 'Client Satisfaction', icon: <Award className="w-5 h-5 text-blue-200" /> },
+                { value: '24/7', label: 'Expert Support', icon: <Shield className="w-5 h-5 text-blue-200" /> }
+              ].map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4 border border-white border-opacity-20 hover:bg-opacity-20 transition-all cursor-pointer"
+                  className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
                   variants={itemVariants}
                   whileHover={{ y: -5, scale: 1.02 }}
                 >
-                  <div className="text-3xl font-bold">{stat}</div>
-                  <div className="text-sm text-blue-100">
-                    {index === 0 ? 'Enterprise Clients' : index === 1 ? 'Client Satisfaction' : 'Expert Support'}
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 bg-white/10 rounded-lg">
+                      {stat.icon}
+                    </div>
+                    <div className="text-3xl font-bold">{stat.value}</div>
                   </div>
+                  <div className="text-sm text-blue-100">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -161,8 +286,113 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Trusted Brands Section */}
-      
+      {/* New Trusted Brands Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-2xl font-semibold text-gray-800">Trusted by Industry Leaders</h3>
+            <p className="text-gray-600 mt-2">Join hundreds of companies already leveraging our solutions</p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Enhanced Floating Features Showcase */}
+      <section className="py-24 bg-gradient-to-b from-white to-blue-50">
+        <div className="container mx-auto px-6">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <div>
+              {/* Feature Cards Stack */}
+              <div className="relative h-[400px] w-full perspective-1000">
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={currentCardIndex}
+                    initial={{ 
+                      opacity: 0,
+                      y: 50,
+                    }}
+                    animate={{ 
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    exit={{ 
+                      opacity: 0,
+                      y: -50,
+                      transition: { duration: 0.3 }
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      ease: "easeOut"
+                    }}
+                    className="absolute inset-0"
+                  >
+                    <div className="relative bg-white p-8 rounded-3xl shadow-lg transform-gpu transition-all duration-300 hover:scale-105">
+                      <div className={`absolute inset-0 bg-gradient-to-r from-${featureCards[currentCardIndex].color}-50 to-${featureCards[currentCardIndex].color}-100 rounded-3xl opacity-40`} />
+                      <div className="relative">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className={`p-3 bg-${featureCards[currentCardIndex].color}-100 rounded-xl`}>
+                            {featureCards[currentCardIndex].icon}
+                          </div>
+                          <h3 className="text-2xl font-bold">{featureCards[currentCardIndex].title}</h3>
+                        </div>
+                        <p className="text-gray-600">
+                          {featureCards[currentCardIndex].description}
+                        </p>
+                        <motion.div 
+                          className="mt-4 flex items-center text-blue-600 font-semibold cursor-pointer group"
+                          whileHover={{ x: 5 }}
+                        >
+                          Learn More
+                          <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Navigation Dots */}
+                <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                  {featureCards.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentCardIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        index === currentCardIndex 
+                          ? 'bg-blue-600 w-4' 
+                          : 'bg-blue-200 hover:bg-blue-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              <h2 className="text-4xl font-bold">Transform Your Marketing Strategy</h2>
+              <p className="text-xl text-gray-600">
+                Our platform combines powerful analytics with AI-driven insights to help you make data-driven decisions and optimize your marketing efforts.
+              </p>
+              <motion.button 
+                className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-lg flex items-center group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Learn More
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Introduction Section with Enhanced Animations */}
       <section className="py-20 bg-gradient-to-b from-white to-gray-50">

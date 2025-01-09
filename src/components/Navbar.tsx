@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import Logo from './Logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  // Add scroll event listener
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setHasScrolled(scrollPosition > 20); // Change background after 20px scroll
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -15,10 +27,14 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white shadow-md fixed w-full z-50">
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      hasScrolled ? 'bg-white shadow-md' : 'bg-transparent'
+    }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-2xl font-bold text-blue-600">
+          <Link to="/" className={`text-2xl font-bold transition-colors ${
+            hasScrolled ? 'text-blue-600' : 'text-white'
+          }`}>
             <Logo size="small" />
           </Link>
 
@@ -28,7 +44,11 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="text-gray-600 hover:text-blue-600 transition-colors"
+                className={`transition-colors ${
+                  hasScrolled 
+                    ? 'text-gray-600 hover:text-blue-600'
+                    : 'text-white hover:text-gray-200'
+                }`}
               >
                 {link.name}
               </Link>
@@ -51,7 +71,11 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="block py-2 text-gray-600 hover:text-blue-600 transition-colors"
+                className={`block py-2 transition-colors ${
+                  hasScrolled 
+                    ? 'text-gray-600 hover:text-blue-600'
+                    : 'text-white hover:text-gray-200'
+                }`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
