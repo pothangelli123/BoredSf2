@@ -20,9 +20,9 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Solutions', path: '/solutions' },
+    { name: 'Solutions', path: '/sfmc-solutions' },
     { name: 'Services', path: '/services' },
-    { name: 'About', path: '/about' },
+    { name: 'About', path: '/About' },
     { name: 'Contact', path: '/contact' },
   ];
 

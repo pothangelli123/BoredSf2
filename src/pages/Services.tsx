@@ -1,400 +1,484 @@
-import React from 'react';
-import { MessageSquare, Mail, Users, BarChart, Zap, Target, Brain, Clock, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { 
+  MessageSquare, Mail, Users, BarChart, Zap, Target, 
+  Brain, Clock, Cloud, Globe, Shield, Phone, 
+  MessageCircle, Share2, Database, Settings
+} from 'lucide-react';
+
+import { motion, useScroll, useTransform } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const cardVariants = {
+  hidden: { y: 50, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
+
+const heroVariants = {
+  hidden: { opacity: 0, y: -50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
+
+const floatingAnimation = {
+  initial: { y: 0 },
+  animate: {
+    y: [-10, 10, -10],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
+interface ServiceCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  features: string[];
+}
+
+interface AdditionalServiceCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}
+
+const ServiceCard = ({ icon: Icon, title, description, features }) => (
+  <motion.div
+    variants={cardVariants}
+    whileHover={{ 
+      scale: 1.03,
+      boxShadow: "0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)",
+      y: -5
+    }}
+    whileTap={{ scale: 0.98 }}
+    className="bg-white p-8 rounded-xl shadow-lg transform transition-all duration-300 hover:border-blue-500 border-2 border-transparent relative overflow-hidden group"
+  >
+    <motion.div
+      animate="animate"
+      initial="initial"
+      variants={floatingAnimation}
+      className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-6 group-hover:bg-blue-200 transition-colors duration-300"
+    >
+      <Icon className="w-8 h-8 text-blue-600 group-hover:text-blue-700" />
+    </motion.div>
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+    <h2 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">{title}</h2>
+    <p className="text-gray-600 mb-6">{description}</p>
+    <ul className="space-y-3">
+      {features.map((feature, index) => (
+        <motion.li
+          key={index}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 }}
+          className="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-200"
+        >
+          <motion.div 
+            className="w-2 h-2 bg-blue-500 rounded-full mr-3"
+            whileHover={{ scale: 1.5 }}
+          />
+          {feature}
+        </motion.li>
+      ))}
+    </ul>
+  </motion.div>
+);
+
+const AdditionalServiceCard = ({ icon: Icon, title, description }) => (
+  <motion.div
+    variants={cardVariants}
+    whileHover={{ 
+      scale: 1.05,
+      y: -8,
+      boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.2)"
+    }}
+    whileTap={{ scale: 0.95 }}
+    className="bg-white p-6 rounded-xl shadow-lg hover:bg-blue-50 transition-all duration-300 relative overflow-hidden group"
+  >
+    <motion.div
+      animate="animate"
+      initial="initial"
+      variants={floatingAnimation}
+      className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4 group-hover:bg-blue-200 transition-colors duration-300"
+    >
+      <Icon className="w-6 h-6 text-blue-600 group-hover:text-blue-700" />
+    </motion.div>
+    <h3 className="text-xl font-bold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">{title}</h3>
+    <p className="text-gray-600">{description}</p>
+    <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+  </motion.div>
+);
 
 export default function Services() {
-  // Add container animation variant
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
+  const mainServices = [
+    {
+      icon: MessageSquare,
+      title: "Journey Builder",
+      description: "Create sophisticated customer journeys that respond to real-time behavior and deliver personalized experiences at scale.",
+      features: [
+        "Multi-channel journey orchestration",
+        "Behavior-triggered automation",
+        "Dynamic content personalization",
+        "A/B testing capabilities",
+        "Journey analytics and optimization",
+        "Real-time customer interaction tracking"
+      ]
+    },
+    {
+      icon: Mail,
+      title: "Email Studio",
+      description: "Design and deploy sophisticated email campaigns with powerful automation and personalization features.",
+      features: [
+        "Drag-and-drop email builder",
+        "Dynamic content blocks",
+        "Template management",
+        "Advanced segmentation",
+        "Deliverability optimization",
+        "Automated A/B testing"
+      ]
+    },
+    {
+      icon: MessageCircle,
+      title: "Mobile Studio",
+      description: "Engage customers through mobile channels with personalized messaging and real-time interactions.",
+      features: [
+        "SMS campaign management",
+        "Push notification services",
+        "Mobile app messaging",
+        "Location-based marketing",
+        "Mobile analytics",
+        "Cross-channel coordination"
+      ]
+    },
+    {
+      icon: Users,
+      title: "Audience Studio",
+      description: "Unify and activate your customer data across all channels with powerful segmentation and targeting capabilities.",
+      features: [
+        "Customer data unification",
+        "Advanced segmentation",
+        "Lookalike modeling",
+        "Cross-channel activation",
+        "Privacy compliance tools",
+        "Real-time audience insights"
+      ]
+    },
+    {
+      icon: Cloud,
+      title: "Interaction Studio",
+      description: "Deliver real-time personalization across web, mobile, and customer-facing applications.",
+      features: [
+        "Real-time personalization",
+        "Web behavior tracking",
+        "Next-best-action recommendations",
+        "Customer journey mapping",
+        "Machine learning optimization",
+        "Cross-channel experience delivery"
+      ]
+    },
+    {
+      icon: BarChart,
+      title: "Analytics Builder",
+      description: "Get deep insights into your marketing performance with advanced analytics and reporting tools.",
+      features: [
+        "Custom dashboard creation",
+        "Real-time reporting",
+        "Multi-channel attribution",
+        "ROI tracking",
+        "Predictive analytics",
+        "AI-powered insights"
+      ]
     }
-  };
+  ];
 
-  // Add item animation variant
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
+  const additionalServices = [
+    {
+      icon: Zap,
+      title: "Implementation Services",
+      description: "Expert setup and configuration of your Marketing Cloud instance, ensuring optimal performance and integration with your existing systems."
+    },
+    {
+      icon: Target,
+      title: "Strategy Consulting",
+      description: "Strategic guidance to maximize your marketing ROI through data-driven insights and industry best practices."
+    },
+    {
+      icon: Brain,
+      title: "Training & Support",
+      description: "Comprehensive training programs and ongoing support to ensure your team masters the Marketing Cloud platform."
+    },
+    {
+      icon: Database,
+      title: "Data Management",
+      description: "Expert assistance in data architecture, integration, and maintenance to ensure clean, actionable customer data."
+    },
+    {
+      icon: Share2,
+      title: "Integration Services",
+      description: "Seamless integration with your CRM, e-commerce platforms, and other business systems for unified operations."
+    },
+    {
+      icon: Settings,
+      title: "Custom Development",
+      description: "Tailored solutions and custom applications built on the Salesforce Marketing Cloud platform to meet your unique needs."
     }
-  };
+  ];
 
-  return (
-    <div className="pt-20">
-      <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-32 overflow-hidden">
-        <div className="absolute inset-0 opacity-10" style={{ 
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` 
-        }}></div>
-        
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+  const platformBenefits = (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6 }}
+      className="mt-20 bg-blue-50 py-16 px-6 rounded-xl"
+    >
+      <h2 className="text-3xl font-bold mb-8 text-center">Platform Benefits</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="text-center">
+          <Shield className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+          <h3 className="text-xl font-bold mb-2">Enterprise-Grade Security</h3>
+          <p className="text-gray-600">Industry-leading security standards and compliance measures to protect your data</p>
         </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-6xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-100 to-indigo-200">
-              Our Services
-            </h1>
-            <p className="text-2xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-              Comprehensive Salesforce Marketing Cloud solutions tailored to transform your business and drive exceptional results
-            </p>
-          </motion.div>
+        <div className="text-center">
+          <Globe className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+          <h3 className="text-xl font-bold mb-2">Global Scale</h3>
+          <p className="text-gray-600">Worldwide infrastructure to support your marketing operations across regions</p>
+        </div>
+        <div className="text-center">
+          <Clock className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+          <h3 className="text-xl font-bold mb-2">24/7 Support</h3>
+          <p className="text-gray-600">Round-the-clock expert support to ensure your marketing operations run smoothly</p>
         </div>
       </div>
+    </motion.div>
+  );
 
-      <div className="container mx-auto px-6 py-24">
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 gap-12"
-        >
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group bg-white p-10 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-blue-100"
-          >
-            <div className="relative w-16 h-16 mb-8">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-                <MessageSquare className="w-8 h-8 text-white" />
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <motion.div
+        variants={heroVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="relative">
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/20 to-transparent z-20" />
+          
+          <div className="relative min-h-[800px] flex items-center justify-center overflow-hidden">
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800"
+              animate={{
+                background: [
+                  'linear-gradient(to bottom right, #2563eb, #4f46e5, #7e22ce)',
+                  'linear-gradient(to bottom right, #1d4ed8, #3730a3, #6b21a8)',
+                  'linear-gradient(to bottom right, #2563eb, #4f46e5, #7e22ce)',
+                ],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+
+            <div className="absolute inset-0 overflow-hidden">
+              {[...Array(20)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute rounded-full bg-white/10"
+                  style={{
+                    width: Math.random() * 100 + 50,
+                    height: Math.random() * 100 + 50,
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    y: [0, Math.random() * 100 - 50],
+                    x: [0, Math.random() * 100 - 50],
+                    scale: [1, Math.random() + 0.5, 1],
+                    opacity: [0.1, 0.2, 0.1],
+                  }}
+                  transition={{
+                    duration: Math.random() * 10 + 10,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="relative z-10 container mx-auto px-6">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="text-white space-y-8"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="inline-block px-4 py-2 bg-white/10 backdrop-blur-lg rounded-full text-sm font-medium"
+                  >
+                    Salesforce Marketing Cloud Services
+                  </motion.div>
+
+                  <motion.h1
+                    className="text-5xl md:text-7xl font-bold leading-tight"
+                    animate={{ scale: [1, 1.02, 1] }}
+                    transition={{ duration: 5, repeat: Infinity }}
+                  >
+                    Transform Your
+                    <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-200">
+                      Digital Marketing
+                    </span>
+                  </motion.h1>
+
+                  <motion.p
+                    className="text-xl text-blue-100 max-w-xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    Comprehensive solutions tailored to elevate your business through powerful marketing automation and personalization
+                  </motion.p>
+
+                  <motion.div
+                    className="flex flex-wrap gap-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <button className="px-8 py-4 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                      Get Started
+                    </button>
+                    <button className="px-8 py-4 bg-blue-600/20 backdrop-blur-lg border-2 border-white/30 text-white rounded-full font-semibold hover:bg-blue-600/30 transition-all duration-300 transform hover:scale-105">
+                      Learn More
+                    </button>
+                  </motion.div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  className="hidden md:block relative h-[600px]"
+                >
+                  <motion.div
+                    className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-6 shadow-2xl"
+                    animate={{
+                      y: [-20, 20],
+                      rotate: [0, 5],
+                    }}
+                    transition={{
+                      duration: 5,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
+                  >
+                    <div className="w-12 h-12 rounded-full bg-blue-500/20 mb-4" />
+                    <div className="h-4 w-3/4 bg-white/20 rounded-full mb-3" />
+                    <div className="h-4 w-1/2 bg-white/20 rounded-full" />
+                  </motion.div>
+
+                  <motion.div
+                    className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gradient-to-br from-purple-500/10 to-purple-500/5 backdrop-blur-lg rounded-2xl p-6 shadow-2xl"
+                    animate={{
+                      y: [20, -20],
+                      rotate: [-5, 0],
+                    }}
+                    transition={{
+                      duration: 6,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-purple-500/20 mb-4" />
+                    <div className="h-3 w-2/3 bg-white/20 rounded-full mb-3" />
+                    <div className="h-3 w-1/2 bg-white/20 rounded-full" />
+                  </motion.div>
+                </motion.div>
               </div>
             </div>
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
-              Journey Builder
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Create sophisticated customer journeys that respond to real-time behavior and deliver personalized experiences at scale.
-            </p>
-            <ul className="space-y-4">
-              {[
-                'Multi-channel journey orchestration',
-                'Behavior-triggered automation',
-                'Dynamic content personalization',
-                'A/B testing capabilities',
-                'Journey analytics and optimization'
-              ].map((feature, index) => (
-                <motion.li 
-                  key={index} 
-                  className="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-300"
-                  whileHover={{ x: 4 }}
-                >
-                  <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mr-3"></div>
-                  {feature}
-                </motion.li>
-              ))}
-            </ul>
-            <Link 
-              to="/journey-builder" 
-              className="mt-8 flex items-center text-blue-600 font-semibold group relative overflow-hidden"
-            >
-              <span className="relative z-10">Learn More</span>
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-              <div className="absolute inset-0 bg-blue-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
-            </Link>
+
+            <div className="absolute bottom-0 left-0 right-0">
+              <svg
+                className="w-full h-24 fill-current text-gray-50"
+                viewBox="0 0 1440 120"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <motion.path
+                  d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,90.7C960,96,1056,96,1152,90.7C1248,85,1344,75,1392,69.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+                  animate={{
+                    d: [
+                      "M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,90.7C960,96,1056,96,1152,90.7C1248,85,1344,75,1392,69.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z",
+                      "M0,96L48,85.3C96,75,192,53,288,64C384,75,480,117,576,122.7C672,128,768,96,864,80C960,64,1056,64,1152,69.3C1248,75,1344,85,1392,90.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+                    ]
+                  }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-6 py-20">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 gap-12"
+          >
+            {mainServices.map((service, index) => (
+              <ServiceCard key={index} {...service} />
+            ))}
           </motion.div>
 
           <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-all"
-          >
-            <Mail className="w-12 h-12 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-4">Email Studio</h2>
-            <p className="text-gray-600 mb-4">Design and deploy sophisticated email campaigns with powerful automation and personalization features.</p>
-            <ul className="space-y-2 text-gray-600">
-              <li>• Drag-and-drop email builder</li>
-              <li>• Dynamic content blocks</li>
-              <li>• Template management</li>
-              <li>• Advanced segmentation</li>
-              <li>• Deliverability optimization</li>
-            </ul>
-            <Link 
-              to="/services/email-studio" 
-              className="mt-8 flex items-center text-blue-600 font-semibold group relative overflow-hidden"
-            >
-              <span className="relative z-10">Learn More</span>
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-              <div className="absolute inset-0 bg-blue-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
-            </Link>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-all"
-          >
-            <Users className="w-12 h-12 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-4">Social Studio</h2>
-            <p className="text-gray-600 mb-4">
-              Manage your social media presence and engage with customers across all social platforms effectively.
-            </p>
-            <ul className="space-y-2 text-gray-600">
-              <li>• Social media monitoring</li>
-              <li>• Content scheduling & publishing</li>
-              <li>• Engagement management</li>
-              <li>• Social listening & analytics</li>
-              <li>• Team collaboration tools</li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-white p-8 rounded-lg shadow-lg hover:shadow-2xl transition-all"
-          >
-            <BarChart className="w-12 h-12 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
-            <h2 className="text-2xl font-bold mb-4">Analytics Builder</h2>
-            <p className="text-gray-600 mb-4">Get deep insights into your marketing performance with advanced analytics and reporting tools.</p>
-            <ul className="space-y-2 text-gray-600">
-              <li>• Custom dashboard creation</li>
-              <li>• Real-time reporting</li>
-              <li>• Multi-channel attribution</li>
-              <li>• ROI tracking</li>
-              <li>• Predictive analytics</li>
-            </ul>
-          </motion.div>
-        </motion.div>
-
-        <div className="mt-24">
-          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            transition={{ delay: 0.4 }}
+            className="mt-20"
           >
-            <span className="inline-block px-4 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">
-              Additional Services
-            </span>
-            <h2 className="text-4xl font-bold">Comprehensive Solutions</h2>
+            <h2 className="text-3xl font-bold mb-12 text-center">Additional Services</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {additionalServices.map((service, index) => (
+                <AdditionalServiceCard key={index} {...service} />
+              ))}
+            </div>
           </motion.div>
 
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            <motion.div
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all border border-gray-100"
-            >
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
-                <Zap className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Implementation Services</h3>
-              <p className="text-gray-600">
-                Expert setup and configuration of your Marketing Cloud instance with best practices and industry standards.
-              </p>
-              <button className="mt-6 flex items-center text-blue-600 font-semibold group">
-                Explore 
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform" />
-              </button>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all"
-            >
-              <Target className="w-10 h-10 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold mb-2">Strategy Consulting</h3>
-              <p className="text-gray-600">Strategic guidance to maximize your marketing ROI</p>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all"
-            >
-              <Brain className="w-10 h-10 text-blue-600 mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold mb-2">Training & Support</h3>
-              <p className="text-gray-600">Comprehensive training and ongoing support for your team</p>
-            </motion.div>
-          </motion.div>
+          {platformBenefits}
         </div>
-
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-24 text-center mb-16"
-        >
-          <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 rounded-full text-sm font-semibold mb-4 shadow-sm">
-            Marketing Cloud Suite
-          </span>
-          <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            Specialized Solutions
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
-        </motion.div>
-
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24"
-        >
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all border border-gray-100"
-          >
-            <div className="relative w-14 h-14 mb-6">
-              <div className="absolute inset-0 bg-green-100 rounded-xl rotate-6 group-hover:rotate-12 transition-transform"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
-                <MessageSquare className="w-7 h-7 text-white" />
-              </div>
-            </div>
-            <h3 className="text-xl font-bold mb-4">Mobile Studio</h3>
-            <p className="text-gray-600 mb-4">
-              Create and manage mobile messaging campaigns across SMS, MMS, and push notifications.
-            </p>
-            <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                SMS Campaign Management
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                Push Notification Services
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                Mobile App Messaging
-              </li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all border border-gray-100"
-          >
-            <div className="relative w-14 h-14 mb-6">
-              <div className="absolute inset-0 bg-purple-100 rounded-xl rotate-6 group-hover:rotate-12 transition-transform"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <Target className="w-7 h-7 text-white" />
-              </div>
-            </div>
-            <h3 className="text-xl font-bold mb-4">Advertising Studio</h3>
-            <p className="text-gray-600 mb-4">
-              Create and manage targeted advertising campaigns across multiple platforms.
-            </p>
-            <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                Social Media Advertising
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                Lead Generation
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                Campaign Optimization
-              </li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all border border-gray-100"
-          >
-            <div className="relative w-14 h-14 mb-6">
-              <div className="absolute inset-0 bg-orange-100 rounded-xl rotate-6 group-hover:rotate-12 transition-transform"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                <Brain className="w-7 h-7 text-white" />
-              </div>
-            </div>
-            <h3 className="text-xl font-bold mb-4">Interaction Studio</h3>
-            <p className="text-gray-600 mb-4">
-              Real-time personalization and interaction management across all channels.
-            </p>
-            <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-orange-500 rounded-full mr-3"></div>
-                Real-time Personalization
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-orange-500 rounded-full mr-3"></div>
-                Behavioral Tracking
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-orange-500 rounded-full mr-3"></div>
-                Machine Learning Models
-              </li>
-            </ul>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="group bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all border border-gray-100"
-          >
-            <div className="relative w-14 h-14 mb-6">
-              <div className="absolute inset-0 bg-teal-100 rounded-xl rotate-6 group-hover:rotate-12 transition-transform"></div>
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center">
-                <Clock className="w-7 h-7 text-white" />
-              </div>
-            </div>
-            <h3 className="text-xl font-bold mb-4">Content Builder</h3>
-            <p className="text-gray-600 mb-4">
-              Create and manage compelling content for all your marketing channels in one place.
-            </p>
-            <ul className="space-y-2 text-gray-600">
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-teal-500 rounded-full mr-3"></div>
-                Drag-and-drop interface
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-teal-500 rounded-full mr-3"></div>
-                Reusable content blocks
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-teal-500 rounded-full mr-3"></div>
-                Dynamic content creation
-              </li>
-              <li className="flex items-center">
-                <div className="w-2 h-2 bg-teal-500 rounded-full mr-3"></div>
-                Asset management
-              </li>
-            </ul>
-          </motion.div>
-        </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }
