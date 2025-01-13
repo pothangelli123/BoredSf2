@@ -34,29 +34,38 @@ type FeatureCard = {
 const featureCards: FeatureCard[] = [
   {
     icon: <Database className="w-6 h-6 text-blue-600" />,
-    title: "Powerful Analytics",
-    description: "Get deep insights into your marketing performance with our advanced analytics tools.",
+    title: "UAE SFMC Analytics",
+    description: "Leverage Salesforce Marketing Cloud analytics tailored for UAE market insights and consumer behavior.",
     color: "blue"
   },
   {
     icon: <Brain className="w-6 h-6 text-purple-600" />,
-    title: "AI-Powered",
-    description: "Leverage advanced AI capabilities to optimize your marketing campaigns automatically.",
+    title: "Einstein AI for MENA",
+    description: "Harness Salesforce Einstein AI to understand and engage with UAE and MENA audiences.",
     color: "purple"
   },
   {
     icon: <Globe className="w-6 h-6 text-green-600" />,
-    title: "Global Reach",
-    description: "Connect with customers worldwide through our comprehensive marketing platform.",
+    title: "GCC Journey Builder",
+    description: "Create personalized customer journeys optimized for GCC markets using SFMC Journey Builder.",
     color: "green"
   },
   {
     icon: <MessageSquare className="w-6 h-6 text-indigo-600" />,
-    title: "Smart Communication",
-    description: "Engage your audience with intelligent, automated messaging across all channels.",
+    title: "Bilingual Automation",
+    description: "Automate marketing campaigns in Arabic and English using SFMC's powerful automation tools.",
     color: "indigo"
   }
 ];
+
+// First, add this helper array near the top of the file, after featureCards
+const uaeImages = {
+  hero: "https://images.unsplash.com/photo-1546412414-e1885259563a?q=80&w=1000&auto=format&fit=crop",
+  burjKhalifa: "https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=1000&auto=format&fit=crop",
+  dubaiMarina: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?q=80&w=1000&auto=format&fit=crop",
+  palmJumeirah: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1000&auto=format&fit=crop",
+  sheikZayedMosque: "https://images.unsplash.com/photo-1512632578888-169bbbc64f33?q=80&w=1000&auto=format&fit=crop"
+};
 
 // Update the header section for better mobile responsiveness
 const headerContentStyles = {
@@ -125,7 +134,7 @@ export default function Home() {
     <div>
       <Navbar />
       {/* Hero Section with Enhanced Mobile Responsiveness */}
-      <header className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white pt-16 sm:pt-24 overflow-hidden min-h-[130vh] sm:min-h-screen pb-24 sm:pb-16">
+      <header className="relative bg-gradient-to-r from-blue-950 via-blue-800 to-blue-600 text-white pt-8 sm:pt-16 md:pt-24 overflow-hidden min-h-screen pb-12 sm:pb-16">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
           {/* First large circle */}
@@ -135,8 +144,8 @@ export default function Home() {
             animate={pulseAnimation.animate}
             className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50" />
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 scale-95" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 scale-95" />
           </motion.div>
 
           {/* Second large circle */}
@@ -146,8 +155,8 @@ export default function Home() {
             animate={pulseAnimation.animate}
             className="absolute bottom-[-20%] left-[-10%] w-[700px] h-[700px] rounded-full"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-50" />
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 scale-95" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-800 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-800 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 scale-95" />
           </motion.div>
 
           {/* Additional floating elements */}
@@ -161,7 +170,7 @@ export default function Home() {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-30"
+            className="absolute top-1/4 left-1/4 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-30"
           />
 
           <motion.div 
@@ -174,11 +183,11 @@ export default function Home() {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+            className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-blue-600 rounded-full mix-blend-multiply filter blur-xl opacity-20"
           />
 
           {/* Overlay gradient for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 via-transparent to-blue-900/20" />
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-950/10 via-transparent to-blue-950/20" />
           
           {/* Grid pattern overlay */}
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
@@ -186,116 +195,167 @@ export default function Home() {
 
         {/* Updated Content Section */}
         <div className={headerContentStyles.container}>
-          <motion.div 
-            className="sm:max-w-3xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Updated Badge */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-center">
+            {/* Left side - existing content */}
             <motion.div 
-              className="inline-block px-3 sm:px-4 py-1 bg-blue-500 bg-opacity-30 rounded-full mb-4 backdrop-blur-sm"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <span className="text-xs sm:text-sm font-semibold flex items-center">
-                <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                Trusted by Fortune 500 Companies
-              </span>
-            </motion.div>
-
-            {/* Updated Title Section */}
-            <motion.h1 
-              className={headerContentStyles.title}
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <div className="flex flex-row items-center gap-4 mb-4">
-                <div className="relative group w-16 sm:w-20">
-                  <div className="absolute inset-0 bg-blue-400 rounded-xl rotate-6 opacity-50 group-hover:rotate-12 transition-all"></div>
-                  <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
-                    <Cloud className="w-8 h-8 sm:w-12 sm:h-12 text-white" strokeWidth={1.5} />
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-2xl sm:text-4xl">BoredSF</span>
-                  <span className="text-xs sm:text-sm text-blue-200 font-normal">Marketing Cloud Solutions</span>
-                </div>
-              </div>
-              Transform Your Marketing with
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-blue-100 block mt-2">
-                Salesforce Marketing Cloud
-              </span>
-            </motion.h1>
-
-            {/* Updated Description */}
-            <motion.p 
-              className={headerContentStyles.subtitle}
-              initial={{ opacity: 0, y: 20 }}
+              className="w-full px-4 sm:px-0 sm:max-w-3xl"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ duration: 0.8 }}
             >
-              Comprehensive marketing automation and customer engagement platform for creating personalized experiences at scale.
-            </motion.p>
-
-            {/* Updated CTA Buttons */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-start"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.div className="flex-1 sm:flex-none" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link 
-                  to="/services" 
-                  className="w-full sm:w-auto bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-lg flex items-center justify-center group"
-                >
-                  Explore Services
-                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+              {/* Updated Badge */}
+              <motion.div 
+                className="inline-block px-3 sm:px-4 py-1 bg-blue-500 bg-opacity-30 rounded-full mb-4 backdrop-blur-sm"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <span className="text-xs sm:text-sm font-semibold flex items-center">
+                  <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                  Trusted by Fortune 500 Companies
+                </span>
               </motion.div>
 
-              <motion.button 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }}
-                className="flex-1 sm:flex-none border-2 border-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all flex items-center justify-center group"
+              {/* Updated Title Section */}
+              <motion.h1 
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
               >
-                Watch Demo
-                <Play className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-              </motion.button>
+                <div className="flex flex-row items-center gap-4 mb-4">
+                  <div className="relative group w-16 sm:w-20">
+                    <div className="absolute inset-0 bg-blue-400 rounded-xl rotate-6 opacity-50 group-hover:rotate-12 transition-all"></div>
+                    <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+                      <Cloud className="w-8 h-8 sm:w-12 sm:h-12 text-white" strokeWidth={1.5} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-2xl sm:text-4xl">BoredSF</span>
+                    <span className="text-xs sm:text-sm text-blue-200 font-normal">UAE's Premier SFMC Partner</span>
+                  </div>
+                </div>
+                Transform Your Marketing with
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-blue-100 block mt-2">
+                  Salesforce Marketing Cloud in UAE
+                </span>
+              </motion.h1>
+
+              {/* Updated Description */}
+              <motion.p 
+                className="text-sm sm:text-base md:text-xl mb-6 sm:mb-8 text-blue-100 max-w-2xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                UAE's leading Salesforce Marketing Cloud implementation partner, delivering personalized customer experiences at scale.
+              </motion.p>
+
+              {/* Updated CTA Buttons */}
+              <motion.div 
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-start mb-8 sm:mb-0"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                <motion.div className="flex-1 sm:flex-none" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    to="/services" 
+                    className="w-full sm:w-auto bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-lg flex items-center justify-center group"
+                  >
+                    Explore Services
+                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </motion.div>
+
+                <motion.button 
+                  whileHover={{ scale: 1.05 }} 
+                  whileTap={{ scale: 0.95 }}
+                  className="flex-1 sm:flex-none border-2 border-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all flex items-center justify-center group"
+                >
+                  Watch Demo
+                  <Play className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
+                </motion.button>
+              </motion.div>
+
+              {/* Updated Stats Grid with Better Mobile Layout */}
+              <motion.div 
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 w-full max-w-4xl mx-auto mb-8 sm:mb-0"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {[
+                  { value: '500+', label: 'SFMC Implementations', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
+                  { value: '98%', label: 'Client Satisfaction', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
+                  { value: '24/7', label: 'SFMC Support', icon: <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> }
+                ].map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    className={headerContentStyles.statsCard}
+                    variants={itemVariants}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-white/10 rounded-lg flex items-center justify-center">
+                        {stat.icon}
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
+                    </div>
+                    <div className="text-sm text-blue-100">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
             </motion.div>
 
-            {/* Updated Stats Grid with Better Mobile Layout */}
-            <motion.div 
-              className={headerContentStyles.statsGrid}
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
+            {/* Right side - New UAE Image */}
+            <motion.div
+              className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] mt-8 lg:mt-0"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              {[
-                { value: '500+', label: 'Enterprise Clients', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
-                { value: '98%', label: 'Client Satisfaction', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
-                { value: '24/7', label: 'Expert Support', icon: <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> }
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  className={headerContentStyles.statsCard}
-                  variants={itemVariants}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-white/10 rounded-lg flex items-center justify-center">
-                      {stat.icon}
-                    </div>
-                    <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
-                  </div>
-                  <div className="text-sm text-blue-100">{stat.label}</div>
-                </motion.div>
-              ))}
+              <div className="relative">
+                {/* Decorative elements */}
+                <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-purple-500/10 rounded-full blur-xl"></div>
+                
+                {/* Main image container */}
+                <div className="relative rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl">
+                  <img
+                    src="https://images.unsplash.com/photo-1546412414-e1885259563a?q=80&w=1000&auto=format&fit=crop"
+                    alt="Dubai Skyline"
+                    className="w-full h-[500px] object-cover object-center transform scale-105 hover:scale-100 transition-transform duration-700"
+                  />
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+                  
+                  {/* Optional floating badges */}
+                  <motion.div
+                    className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <span className="text-blue-600 font-semibold text-sm">Dubai, UAE</span>
+                  </motion.div>
+
+                  {/* Additional info badge */}
+                  <motion.div
+                    className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <span className="text-blue-600 font-semibold text-sm flex items-center">
+                      <Cloud className="w-4 h-4 mr-2" />
+                      SFMC Solutions Hub
+                    </span>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Bottom Wave - removed the gradient fade, kept only the wave */}
@@ -427,21 +487,55 @@ export default function Home() {
             <h2 className="text-4xl font-bold mb-8">
               <span className="inline-block">
                 <Sparkles className="inline-block w-8 h-8 text-blue-600 mr-2" />
-                Understanding Salesforce Marketing Cloud
+                Leading SFMC Partner in UAE
               </span>
             </h2>
             <p className="text-xl text-gray-600">
-              A comprehensive suite of digital marketing tools designed to create personalized customer experiences at scale.
+              Expert Salesforce Marketing Cloud implementation and consulting services, tailored for UAE businesses.
             </p>
           </motion.div>
 
+          {/* Add image grid before the features */}
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 sm:mb-16 rounded-2xl overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
+            <div className="sm:col-span-2 relative h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
+              <img 
+                src={uaeImages.burjKhalifa} 
+                alt="Burj Khalifa"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <h4 className="text-lg font-bold">Dubai Headquarters</h4>
+                <p className="text-sm">SFMC Excellence Center</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-1 gap-4">
+              <div className="relative h-[140px] sm:h-[192px] rounded-lg overflow-hidden">
+                <img 
+                  src={uaeImages.dubaiMarina} 
+                  alt="Dubai Marina"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              </div>
+              <div className="relative h-[140px] sm:h-[192px] rounded-lg overflow-hidden">
+                <img 
+                  src={uaeImages.sheikZayedMosque} 
+                  alt="Sheikh Zayed Mosque"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Existing feature cards */}
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div 
               className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100"
               whileHover={{ 
@@ -454,9 +548,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                 <Rocket className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-4">Automation Power</h3>
+              <h3 className="text-xl font-bold mb-4">UAE Market Expertise</h3>
               <p className="text-gray-600">
-                Create sophisticated marketing automation workflows with drag-and-drop simplicity.
+                Create sophisticated marketing campaigns tailored for UAE audiences with local cultural insights.
               </p>
             </motion.div>
 
@@ -500,9 +594,17 @@ export default function Home() {
       </section>
 
       {/* Core Products Section with Enhanced Animations */}
-      <section className="py-20">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 opacity-10">
+          <img 
+            src={uaeImages.palmJumeirah}
+            alt="Palm Jumeirah"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-white/90"></div>
+        </div>
         <motion.div 
-          className="container mx-auto px-6"
+          className="container mx-auto px-6 relative z-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -510,9 +612,9 @@ export default function Home() {
         >
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">
-              Core Products
+              SFMC Solutions
             </span>
-            <h2 className="text-4xl font-bold">Marketing Cloud Solutions</h2>
+            <h2 className="text-4xl font-bold">Marketing Cloud Solutions for UAE</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -537,7 +639,7 @@ export default function Home() {
                 </span>
               </div>
               <p className="text-gray-600 mb-6">
-                Deliver real-time personalization across web, mobile, and other digital channels.
+                Leverage SFMC Interaction Studio to deliver real-time personalization across web, mobile, and digital channels in UAE.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center text-gray-600">
@@ -610,9 +712,9 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">
-              Advanced Features
+              SFMC Features
             </span>
-            <h2 className="text-4xl font-bold">Advanced Capabilities</h2>
+            <h2 className="text-4xl font-bold">Marketing Cloud Capabilities</h2>
             <div className="w-24 h-1 bg-blue-600 mx-auto mt-4"></div>
           </div>
 
@@ -723,26 +825,25 @@ export default function Home() {
       </section>
 
       {/* Enhanced CTA Section */}
-      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-pattern opacity-10"></div>
+      <section className="py-12 sm:py-16 md:py-24 relative overflow-hidden">
         <motion.div 
-          className="container mx-auto px-6 text-center relative z-10"
+          className="container mx-auto px-4 sm:px-6 text-center relative z-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
           <motion.h2 
-            className="text-4xl font-bold mb-8"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Ready to Transform Your Marketing?
+            Ready to Transform Your Marketing with SFMC in UAE?
           </motion.h2>
           
           <motion.div 
-            className="flex justify-center gap-6"
+            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
