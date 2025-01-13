@@ -11,7 +11,7 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setHasScrolled(scrollPosition > 20); // Change background after 20px scroll
+      setHasScrolled(scrollPosition > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -22,18 +22,18 @@ export default function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'Solutions', path: '/sfmc-solutions' },
     { name: 'Services', path: '/services' },
-    { name: 'About', path: '/About' },
+    { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      hasScrolled ? 'bg-white shadow-md' : 'bg-transparent'
+      hasScrolled || (isOpen && window.innerWidth < 768) ? 'bg-white shadow-md' : 'bg-transparent'
     }`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className={`text-2xl font-bold transition-colors ${
-            hasScrolled ? 'text-blue-600' : 'text-white'
+            hasScrolled || (isOpen && window.innerWidth < 768) ? 'text-blue-600' : 'text-white'
           }`}>
             <Logo size="small" />
           </Link>
@@ -57,32 +57,34 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden"
+            className="md:hidden focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <X /> : <Menu />}
+            {isOpen ? (
+              <X className={hasScrolled || isOpen ? 'text-gray-600' : 'text-white'} />
+            ) : (
+              <Menu className={hasScrolled ? 'text-gray-600' : 'text-white'} />
+            )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden mt-4 pb-4">
+        <div className={`md:hidden transition-all duration-300 overflow-hidden ${
+          isOpen ? 'max-h-screen bg-white' : 'max-h-0'
+        }`}>
+          <div className="flex flex-col mt-4 pb-4 space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block py-2 transition-colors ${
-                  hasScrolled 
-                    ? 'text-gray-600 hover:text-blue-600'
-                    : 'text-white hover:text-gray-200'
-                }`}
+                className="block py-2 transition-colors text-gray-600 hover:text-blue-600"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );

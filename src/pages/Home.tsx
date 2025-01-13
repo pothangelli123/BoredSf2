@@ -58,6 +58,23 @@ const featureCards: FeatureCard[] = [
   }
 ];
 
+// Update the header section for better mobile responsiveness
+const headerContentStyles = {
+  container: "container mx-auto px-4 sm:px-6 relative z-10",
+  title: "text-3xl sm:text-4xl md:text-6xl font-bold mb-4 sm:mb-6 leading-tight",
+  subtitle: "text-base sm:text-xl mb-6 sm:mb-8 text-blue-100 max-w-2xl",
+  statsGrid: "mt-8 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 w-full sm:max-w-4xl mb-12 sm:mb-0",
+  statsCard: "bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:bg-white/20 transition-all cursor-pointer flex flex-col",
+};
+
+// Update the feature cards for better mobile layout
+const featureCardStyles = {
+  container: "p-4 sm:p-8 rounded-3xl shadow-lg",
+  iconContainer: "p-2 sm:p-3 rounded-xl",
+  title: "text-lg sm:text-2xl font-bold",
+  description: "text-sm sm:text-base text-gray-600",
+};
+
 export default function Home() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 300], [0, 100]);
@@ -107,8 +124,8 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-      {/* Hero Section with Enhanced Animations */}
-      <header className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white pt-24 overflow-hidden min-h-screen">
+      {/* Hero Section with Enhanced Mobile Responsiveness */}
+      <header className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white pt-16 sm:pt-24 overflow-hidden min-h-[130vh] sm:min-h-screen pb-24 sm:pb-16">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
           {/* First large circle */}
@@ -167,43 +184,44 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-10" />
         </div>
 
-        {/* Content */}
-        <div className="container mx-auto px-6 relative z-10">
+        {/* Updated Content Section */}
+        <div className={headerContentStyles.container}>
           <motion.div 
-            className="max-w-3xl mb-20"
+            className="sm:max-w-3xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
+            {/* Updated Badge */}
             <motion.div 
-              className="inline-block px-4 py-1 bg-blue-500 bg-opacity-30 rounded-full mb-4 backdrop-blur-sm"
+              className="inline-block px-3 sm:px-4 py-1 bg-blue-500 bg-opacity-30 rounded-full mb-4 backdrop-blur-sm"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <span className="text-sm font-semibold flex items-center">
-                <Star className="w-4 h-4 mr-2" />
+              <span className="text-xs sm:text-sm font-semibold flex items-center">
+                <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                 Trusted by Fortune 500 Companies
               </span>
             </motion.div>
 
+            {/* Updated Title Section */}
             <motion.h1 
-              className="text-6xl font-bold mb-6 leading-tight"
+              className={headerContentStyles.title}
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <div className="flex items-center gap-4 mb-4 transform hover:scale-105 transition-transform">
-                <div className="relative group">
+              <div className="flex flex-row items-center gap-4 mb-4">
+                <div className="relative group w-16 sm:w-20">
                   <div className="absolute inset-0 bg-blue-400 rounded-xl rotate-6 opacity-50 group-hover:rotate-12 transition-all"></div>
-                  <div className="relative flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
-                    <div className="absolute inset-0 bg-white opacity-10 rounded-xl group-hover:opacity-20 transition-opacity"></div>
-                    <Cloud className="w-12 h-12 text-white transform group-hover:scale-110 transition-transform" strokeWidth={1.5} />
+                  <div className="relative flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+                    <Cloud className="w-8 h-8 sm:w-12 sm:h-12 text-white" strokeWidth={1.5} />
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-4xl">BoredSF</span>
-                  <span className="text-sm text-blue-200 font-normal">Marketing Cloud Solutions</span>
+                  <span className="text-2xl sm:text-4xl">BoredSF</span>
+                  <span className="text-xs sm:text-sm text-blue-200 font-normal">Marketing Cloud Solutions</span>
                 </div>
               </div>
               Transform Your Marketing with
@@ -212,8 +230,9 @@ export default function Home() {
               </span>
             </motion.h1>
 
+            {/* Updated Description */}
             <motion.p 
-              className="text-xl mb-8 text-blue-100 max-w-2xl"
+              className={headerContentStyles.subtitle}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -221,55 +240,56 @@ export default function Home() {
               Comprehensive marketing automation and customer engagement platform for creating personalized experiences at scale.
             </motion.p>
 
+            {/* Updated CTA Buttons */}
             <motion.div 
-              className="flex gap-4 items-center"
+              className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-start"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div className="flex-1 sm:flex-none" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link 
                   to="/services" 
-                  className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-lg flex items-center group"
+                  className="w-full sm:w-auto bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-lg flex items-center justify-center group"
                 >
                   Explore Services
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
 
               <motion.button 
                 whileHover={{ scale: 1.05 }} 
                 whileTap={{ scale: 0.95 }}
-                className="border-2 border-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all flex items-center group"
+                className="flex-1 sm:flex-none border-2 border-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all flex items-center justify-center group"
               >
                 Watch Demo
-                <Play className="ml-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Play className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
               </motion.button>
             </motion.div>
 
-            {/* Enhanced Stats Preview */}
+            {/* Updated Stats Grid with Better Mobile Layout */}
             <motion.div 
-              className="mt-16 grid grid-cols-3 gap-8 max-w-2xl"
+              className={headerContentStyles.statsGrid}
               variants={containerVariants}
               initial="hidden"
               animate="visible"
             >
               {[
-                { value: '500+', label: 'Enterprise Clients', icon: <Users className="w-5 h-5 text-blue-200" /> },
-                { value: '98%', label: 'Client Satisfaction', icon: <Award className="w-5 h-5 text-blue-200" /> },
-                { value: '24/7', label: 'Expert Support', icon: <Shield className="w-5 h-5 text-blue-200" /> }
+                { value: '500+', label: 'Enterprise Clients', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
+                { value: '98%', label: 'Client Satisfaction', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
+                { value: '24/7', label: 'Expert Support', icon: <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> }
               ].map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
+                  className={headerContentStyles.statsCard}
                   variants={itemVariants}
                   whileHover={{ y: -5, scale: 1.02 }}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-white/10 rounded-lg">
+                    <div className="p-2 bg-white/10 rounded-lg flex items-center justify-center">
                       {stat.icon}
                     </div>
-                    <div className="text-3xl font-bold">{stat.value}</div>
+                    <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
                   </div>
                   <div className="text-sm text-blue-100">{stat.label}</div>
                 </motion.div>
@@ -279,7 +299,7 @@ export default function Home() {
         </div>
 
         {/* Bottom Wave - removed the gradient fade, kept only the wave */}
-        <div className="absolute bottom-0 left-0 right-0">
+        <div className="absolute -bottom-1 left-0 right-0">
           <svg className="relative w-full" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0 24C480 74 960 74 1440 24V74H0V24Z" fill="white"/>
           </svg>
@@ -287,7 +307,7 @@ export default function Home() {
       </header>
 
       {/* New Trusted Brands Section */}
-      <section className="py-16 bg-white">
+      <section className="pt-16 sm:pt-16 bg-white">
         <div className="container mx-auto px-6">
           <motion.div 
             className="text-center mb-12"
