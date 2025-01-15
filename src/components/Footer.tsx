@@ -20,7 +20,7 @@ const Accordion = ({ title, children }: AccordionProps) => {
         <span className="text-blue-400 font-semibold">{title}</span>
         <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`} />
       </button>
-
+      
       {/* Mobile dropdown */}
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 py-3' : 'max-h-0'}`}>
         {children}
@@ -47,11 +47,11 @@ export default function Footer() {
               <Logo size="medium" className="text-white" />
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
-              We specialize in Salesforce Marketing Cloud & Data Cloud solutions,
-              helping businesses transform their digital marketing through innovative
+              We specialize in Salesforce Marketing Cloud & Data Cloud solutions, 
+              helping businesses transform their digital marketing through innovative 
               cloud-based technologies.
             </p>
-
+            
             <div className="space-y-3">
               <a href="mailto:contact@boredsf.com" 
                  className="flex items-center text-gray-300 hover:text-blue-400 transition-colors duration-300 justify-center lg:justify-start">
@@ -105,12 +105,12 @@ export default function Footer() {
             <div>
               <p className="text-sm text-gray-300 mb-4">Subscribe to our newsletter for the latest updates.</p>
               <form className="space-y-3">
-                <input
+                <input 
                   type="email" 
                   placeholder="Enter your email" 
                   className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:border-blue-400 text-sm"
                 />
-                <button
+                <button 
                   type="submit" 
                   className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md transition-colors duration-300 text-sm"
                 >
@@ -123,8 +123,32 @@ export default function Footer() {
 
         {/* Social Media & Certification Badges */}
         <div className="mt-12 pt-8 border-t border-gray-800">
-          {/* Your original social media and certification badges section */}
-          {/* ... rest of your original footer code ... */}
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+            {/* Social Media Links */}
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                <Linkedin className="w-6 h-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                <Twitter className="w-6 h-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                <Facebook className="w-6 h-6" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-300">
+                <Instagram className="w-6 h-6" />
+              </a>
+            </div>
+
+            {/* Certification Badges */}
+            <div className="flex items-center space-x-6">
+              <img 
+                src="https://cdn.prod.website-files.com/613e4731d83966a77c092578/620674c2ab35e3481a9a06bb_Salesforce_Partner_Badge-p-500.png" 
+                alt="Salesforce Partner" 
+                className="h-16 w-auto object-contain"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Enhanced Bottom Bar */}
@@ -143,4 +167,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+} 

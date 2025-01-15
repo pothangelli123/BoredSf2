@@ -30,7 +30,7 @@ export default function ContactSection() {
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-800">Address</h4>
-                      <p className="text-gray-600">123 Market Street, Suite 456<br />San Francisco, CA 94105</p>
+                      <p className="text-gray-600">Dubai Internet City<br />Dubai, United Arab Emirates</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -64,27 +64,19 @@ export default function ContactSection() {
 
                 {/* Map Section */}
                 <div className="mt-8 relative overflow-hidden">
-                  <div 
-                    className="w-full h-[400px] rounded-xl relative bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url('https://staticmap.openstreetmap.de/staticmap.php?center=37.7749,-122.4194&zoom=14&size=800x400&markers=37.7749,-122.4194,red')`
-                    }}
-                  >
-                    {/* Overlay gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-blue-600/20"></div>
+                  <div className="w-full h-[400px] rounded-xl relative">
+                    <iframe
+                      src="https://www.openstreetmap.org/export/embed.html?bbox=55.14431,25.08581,55.16231,25.09741&layer=mapnik&marker=25.0916,55.1533&show_locales=true&locale=en"
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      style={{ border: 0, borderRadius: '0.75rem' }}
+                      allowFullScreen
+                    ></iframe>
                     
-                    {/* Location marker */}
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                      <div className="relative">
-                        <div className="absolute -inset-4 bg-blue-500/20 rounded-full animate-ping"></div>
-                        <div className="absolute -inset-2 bg-blue-500/40 rounded-full animate-ping animation-delay-500"></div>
-                        <div className="relative w-8 h-8 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
-                      </div>
-                    </div>
-                    
-                    {/* Location label */}
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-8 bg-white px-6 py-2 rounded-full shadow-xl border border-gray-100">
-                      <p className="text-sm font-semibold text-gray-700">San Francisco Office</p>
+                    {/* Location label - making it more prominent */}
+                    <div className="absolute left-1/2 bottom-4 -translate-x-1/2 bg-white px-6 py-2 rounded-full shadow-xl border border-gray-100 z-10">
+                      <p className="text-sm font-semibold text-gray-700">Dubai Internet City</p>
                     </div>
                   </div>
                 </div>
@@ -143,7 +135,7 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
-     
+      <Footer />
     </section>
   );
 }

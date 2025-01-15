@@ -1,36 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { 
   MessageSquare, Mail, Users, BarChart, Cloud, Shield, Zap, Globe,
-  Award, Sparkles, Rocket, Target, ArrowRight, CheckCircle, CheckCircle2, Star, Database, Play, Brain, Network, LineChart
+  Award, Sparkles, Rocket, Target, ArrowRight, CheckCircle, Star, 
+  Database, Play, Brain, Network, LineChart
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';
 
-// Add this new animation keyframe to your global CSS or create it using Framer Motion
-const pulseAnimation = {
-  initial: { scale: 1, opacity: 0.3 },
-  animate: {
-    scale: 1.2,
-    opacity: [0.3, 0.6, 0.3],
+// Add these animation variants
+const cardVariants = {
+  hidden: { y: 50, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
     transition: {
-      duration: 8,
-      repeat: Infinity,
-      ease: "easeInOut"
+      duration: 0.6,
+      ease: "easeOut"
     }
   }
 };
 
-// Add this new type and constant before the Home component
-type FeatureCard = {
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
+
+// Add these interfaces
+interface ServiceCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  features?: string[];
+  color?: string;
+}
+
+interface FeatureCard {
   icon: JSX.Element;
   title: string;
   description: string;
   color: string;
-};
+}
 
+// Update the feature cards type
 const featureCards: FeatureCard[] = [
   {
     icon: <Database className="w-6 h-6 text-blue-600" />,
@@ -58,6 +72,67 @@ const featureCards: FeatureCard[] = [
   }
 ];
 
+// Add the feature card component
+const FeatureCard = ({ icon: Icon, title, description, color = "blue" }: ServiceCardProps) => (
+  <motion.div
+    variants={cardVariants}
+    whileHover={{ 
+      scale: 1.03,
+      y: -8,
+      boxShadow: "0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)"
+    }}
+    whileTap={{ scale: 0.98 }}
+    className="bg-white p-8 rounded-xl shadow-lg transform transition-all duration-300 hover:border-blue-500 border-2 border-transparent relative overflow-hidden group"
+  >
+    <div className={`absolute inset-0 bg-gradient-to-br from-${color}-50 to-${color}-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+    <motion.div
+      animate="animate"
+      initial="initial"
+      variants={floatingAnimation}
+      className={`flex items-center justify-center w-16 h-16 bg-${color}-100 rounded-full mb-6 group-hover:bg-${color}-200 transition-colors duration-300 relative`}
+    >
+      {Icon}
+    </motion.div>
+    <h3 className="text-xl font-bold mb-4 group-hover:text-blue-600 transition-colors duration-300 relative">{title}</h3>
+    <p className="text-gray-600 relative">{description}</p>
+    <motion.div 
+      className="mt-4 flex items-center text-blue-600 font-semibold cursor-pointer group/link relative"
+      whileHover={{ x: 5 }}
+    >
+      Learn More
+      <ArrowRight className="ml-2 w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+    </motion.div>
+  </motion.div>
+);
+
+// Add this new animation keyframe to your global CSS or create it using Framer Motion
+const pulseAnimation = {
+  initial: { scale: 1, opacity: 0.3 },
+  animate: {
+    scale: 1.2,
+    opacity: [0.3, 0.6, 0.3],
+    transition: {
+      duration: 8,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
+// Add this new animation keyframe near the top of the file, after pulseAnimation
+const floatingAnimation = {
+  initial: { y: 0 },
+  animate: {
+    y: [-10, 10, -10],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
 // First, add this helper array near the top of the file, after featureCards
 const uaeImages = {
   hero: "https://images.unsplash.com/photo-1546412414-e1885259563a?q=80&w=1000&auto=format&fit=crop",
@@ -78,11 +153,77 @@ const headerContentStyles = {
 
 // Update the feature cards for better mobile layout
 const featureCardStyles = {
-  container: "p-4 sm:p-8 rounded-3xl shadow-lg",
-  iconContainer: "p-2 sm:p-3 rounded-xl",
-  title: "text-lg sm:text-2xl font-bold",
+  container: "p-4 sm:p-8 rounded-3xl shadow-lg relative overflow-hidden group transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-blue-500",
+  iconContainer: "p-2 sm:p-3 rounded-xl transition-colors duration-300 group-hover:bg-blue-100",
+  title: "text-lg sm:text-2xl font-bold group-hover:text-blue-600 transition-colors duration-300",
   description: "text-sm sm:text-base text-gray-600",
 };
+
+// Update the stats card with enhanced hover effects
+const StatsCard = ({ icon: Icon, value, label }: { icon: React.ElementType, value: string, label: string }) => (
+  <motion.div
+    variants={itemVariants}
+    whileHover={{ 
+      y: -5, 
+      scale: 1.02,
+      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+    }}
+    className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border-2 border-white/20 hover:border-white/40 hover:bg-white/20 transition-all cursor-pointer group relative overflow-hidden"
+  >
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+    <div className="flex items-center gap-3 mb-2">
+      <motion.div 
+        className="p-2 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-all duration-300"
+        animate="animate"
+        initial="initial"
+        variants={floatingAnimation}
+      >
+        <Icon className="w-5 h-5 text-blue-200" />
+      </motion.div>
+      <div className="text-2xl sm:text-3xl font-bold group-hover:text-white transition-colors duration-300">{value}</div>
+    </div>
+    <div className="text-sm text-blue-100 group-hover:text-white transition-colors duration-300">{label}</div>
+  </motion.div>
+);
+
+// Update the marketing capabilities card with enhanced hover effects
+const CapabilityCard = ({ icon: Icon, title, description, features, color = "blue" }: ServiceCardProps) => (
+  <motion.div 
+    className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 border-2 border-transparent hover:border-blue-500 relative overflow-hidden"
+    whileHover={{ 
+      y: -10,
+      scale: 1.02,
+      boxShadow: "0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)"
+    }}
+    variants={itemVariants}
+  >
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+    <div className="relative w-16 h-16 mb-6">
+      <div className={`absolute inset-0 bg-${color}-100 rounded-xl rotate-6 group-hover:rotate-12 transition-transform`}></div>
+      <div className={`absolute inset-0 bg-gradient-to-br from-${color}-500 to-${color}-600 rounded-xl flex items-center justify-center`}>
+        <Icon className="w-8 h-8 text-white" />
+      </div>
+    </div>
+    <h3 className="text-xl font-bold mb-4 group-hover:text-blue-600 transition-colors duration-300">{title}</h3>
+    <p className="text-gray-600 mb-6">{description}</p>
+    {features && (
+      <ul className="space-y-3">
+        {features.map((feature, index) => (
+          <motion.li
+            key={index}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="flex items-center text-gray-600 group-hover:text-gray-700 transition-colors duration-200"
+          >
+            <CheckCircle className={`w-5 h-5 text-${color}-500 mr-2`} />
+            {feature}
+          </motion.li>
+        ))}
+      </ul>
+    )}
+  </motion.div>
+);
 
 export default function Home() {
   const { scrollY } = useScroll();
@@ -111,11 +252,6 @@ export default function Home() {
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
 
@@ -134,7 +270,7 @@ export default function Home() {
     <div>
       <Navbar />
       {/* Hero Section with Enhanced Mobile Responsiveness */}
-      <header className="relative bg-gradient-to-r from-blue-950 via-blue-800 to-blue-600 text-white pt-8 sm:pt-16 md:pt-24 overflow-hidden min-h-screen pb-12 sm:pb-16">
+      <header className="relative bg-gradient-to-r from-blue-950 via-blue-800 to-blue-600 text-white pt-16 sm:pt-24 overflow-hidden min-h-screen pb-12 sm:pb-16">
         {/* Enhanced Animated Background Elements */}
         <div className="absolute inset-0">
           {/* First large circle */}
@@ -205,20 +341,20 @@ export default function Home() {
             >
               {/* Updated Badge */}
               <motion.div 
-                className="inline-block px-3 sm:px-4 py-1 bg-blue-500 bg-opacity-30 rounded-full mb-4 backdrop-blur-sm"
+                className="inline-block px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-full mb-4 sm:mb-6 mt-8 sm:mt-16"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <span className="text-xs sm:text-sm font-semibold flex items-center">
-                  <Star className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                <span className="text-sm sm:text-base font-semibold flex items-center text-white">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Trusted by Fortune 500 Companies
                 </span>
               </motion.div>
 
               {/* Updated Title Section */}
               <motion.h1 
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight mt-4"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -286,46 +422,33 @@ export default function Home() {
                 animate="visible"
               >
                 {[
-                  { value: '500+', label: 'SFMC Implementations', icon: <Users className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
-                  { value: '98%', label: 'Client Satisfaction', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> },
-                  { value: '24/7', label: 'SFMC Support', icon: <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-200" /> }
+                  { value: '500+', label: 'SFMC Implementations', icon: Users },
+                  { value: '98%', label: 'Client Satisfaction', icon: Award },
+                  { value: '24/7', label: 'SFMC Support', icon: Shield }
                 ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    className={headerContentStyles.statsCard}
-                    variants={itemVariants}
-                    whileHover={{ y: -5, scale: 1.02 }}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-white/10 rounded-lg flex items-center justify-center">
-                        {stat.icon}
-                      </div>
-                      <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
-                    </div>
-                    <div className="text-sm text-blue-100">{stat.label}</div>
-                  </motion.div>
+                  <StatsCard key={index} {...stat} />
                 ))}
               </motion.div>
             </motion.div>
 
             {/* Right side - New UAE Image */}
             <motion.div
-              className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] mt-8 lg:mt-0"
+              className="relative w-full h-[400px] sm:h-[400px] lg:h-[500px] mt-8 lg:mt-0"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative">
+              <div className="relative h-full">
                 {/* Decorative elements */}
                 <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl"></div>
                 <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-purple-500/10 rounded-full blur-xl"></div>
                 
                 {/* Main image container */}
-                <div className="relative rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl">
+                <div className="relative rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl h-full">
                   <img
                     src="https://images.unsplash.com/photo-1546412414-e1885259563a?q=80&w=1000&auto=format&fit=crop"
                     alt="Dubai Skyline"
-                    className="w-full h-[500px] object-cover object-center transform scale-105 hover:scale-100 transition-transform duration-700"
+                    className="w-full h-full object-cover object-center transform scale-105 hover:scale-100 transition-transform duration-700"
                   />
                   {/* Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
@@ -415,14 +538,30 @@ export default function Home() {
                     }}
                     className="absolute inset-0"
                   >
-                    <div className="relative bg-white p-8 rounded-3xl shadow-lg transform-gpu transition-all duration-300 hover:scale-105">
+                    <motion.div 
+                      className="relative bg-white p-8 rounded-3xl shadow-lg transform-gpu transition-all duration-300"
+                      whileHover={{ 
+                        scale: 1.03,
+                        y: -5,
+                        boxShadow: "0 25px 35px -5px rgba(0, 0, 0, 0.15), 0 15px 15px -5px rgba(0, 0, 0, 0.08)"
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                    >
                       <div className={`absolute inset-0 bg-gradient-to-r from-${featureCards[currentCardIndex].color}-50 to-${featureCards[currentCardIndex].color}-100 rounded-3xl opacity-40`} />
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                       <div className="relative">
                         <div className="flex items-center gap-4 mb-6">
-                          <div className={`p-3 bg-${featureCards[currentCardIndex].color}-100 rounded-xl`}>
+                          <motion.div 
+                            className={`p-3 bg-${featureCards[currentCardIndex].color}-100 rounded-xl group-hover:bg-${featureCards[currentCardIndex].color}-200 transition-colors duration-300`}
+                            animate="animate"
+                            initial="initial"
+                            variants={floatingAnimation}
+                          >
                             {featureCards[currentCardIndex].icon}
-                          </div>
-                          <h3 className="text-2xl font-bold">{featureCards[currentCardIndex].title}</h3>
+                          </motion.div>
+                          <h3 className="text-2xl font-bold group-hover:text-blue-600 transition-colors duration-300">
+                            {featureCards[currentCardIndex].title}
+                          </h3>
                         </div>
                         <p className="text-gray-600">
                           {featureCards[currentCardIndex].description}
@@ -435,7 +574,7 @@ export default function Home() {
                           <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </motion.div>
                       </div>
-                    </div>
+                    </motion.div>
                   </motion.div>
                 </AnimatePresence>
 
