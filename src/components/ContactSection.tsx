@@ -135,7 +135,6 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
-      <Footer />
     </section>
   );
 }
